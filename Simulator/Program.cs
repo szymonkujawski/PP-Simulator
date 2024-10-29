@@ -1,10 +1,9 @@
-﻿namespace Simulator
+﻿namespace Simulator;
+
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Starting Simulator!\n");
-        }
+        Console.WriteLine("Starting Simulator!\n");
     }
 }
