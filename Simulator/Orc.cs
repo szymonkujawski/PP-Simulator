@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Simulator;
 public class Orc : Creature
 {
@@ -11,13 +11,11 @@ public class Orc : Creature
     public int Rage
     {
         get => rage;
-        init
-        {
-            rage = value < 1 ? 1 : (value > 10 ? 10 : value);
-        }
+        init => rage = Validator.Limiter(value, 0, 10);
     }
     private int huntCounter = 0;
     public override int Power => 7 * Level + 3 * rage;
+    public override string Info => $"{Name} [{Level}][{Rage}]";
     public Orc() { }
     public Orc(string name, int level = 1, int rage = 1) : base(name, level)
     {
