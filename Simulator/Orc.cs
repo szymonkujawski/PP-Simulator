@@ -27,7 +27,7 @@ public class Orc : Creature
     {
         huntCounter++;
         Console.WriteLine($"{Name} is hunting.");
-        if (huntCounter % 3 == 0 && rage < 10)
+        if (huntCounter % 2 == 0 && rage < 10)
         {
             rage++;
             Console.WriteLine($"Rage Up ({rage - 1} -> {rage})");
