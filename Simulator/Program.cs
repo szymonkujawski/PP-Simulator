@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Simulator.Maps;
+using System.Drawing;
 
 namespace Simulator;
 
@@ -11,7 +12,8 @@ internal class Program
         //Creature c = new Elf("Elandor", 5, 3);
         //Console.WriteLine(c);  // ELF: Elandor [5]
         //Lab4b();
-        Lab5a();
+        //Lab5a();
+        Lab5b();
 
     }
 
@@ -103,5 +105,67 @@ internal class Program
         {
             Console.WriteLine($"{expectation.Message}");
         }
+    }
+
+    public static void Lab5b()
+    {
+        // Create map with correct size
+        try
+        {
+            SmallSquareMap map = new SmallSquareMap(10);
+            Console.WriteLine(map);
+        }
+        catch (ArgumentOutOfRangeException expectation)
+        {
+            Console.WriteLine("Error: " + expectation.Message);
+        }
+        Console.Write("\n");
+        // Create map with invalid size
+        try
+        {
+            SmallSquareMap invalidMap = new SmallSquareMap(3);
+        }
+        catch (ArgumentOutOfRangeException expectation)
+        {
+            Console.WriteLine("Error: " + expectation.Message);
+        }
+        Console.Write("\n");
+        SmallSquareMap map10 = new SmallSquareMap(9);
+        Console.WriteLine(map10);
+        Point pointInside = new Point(4, 4);
+        Point pointInside2 = new Point(3, 7);
+        Point pointOutside = new Point(9, 9);
+        Point pointOutside2 = new Point(-14, -2);
+        Console.WriteLine($"Point {pointInside} inside map: {map10.Exist(pointInside)}?");
+        Console.WriteLine($"Point {pointInside2} inside map: {map10.Exist(pointInside2)}?");
+        Console.WriteLine($"Point {pointOutside} inside map: {map10.Exist(pointOutside)}?");
+        Console.WriteLine($"Point {pointOutside2} inside map: {map10.Exist(pointOutside2)}?");
+        Console.Write("\n");
+        
+
+        Point startPoint = new Point(5, 5);
+        Console.WriteLine($"Starting point: {startPoint}");
+        Console.WriteLine($"Next point after up move {startPoint}: {map10.Next(startPoint, Direction.Up)}");
+        Console.WriteLine($"Next point after down move {startPoint}: {map10.Next(startPoint, Direction.Down)}");
+        Console.WriteLine($"Next point afrer left move {startPoint}: {map10.Next(startPoint, Direction.Left)}");
+        Console.WriteLine($"Next point afrer right move {startPoint}: {map10.Next(startPoint, Direction.Right)}");
+        Console.Write("\n");
+        
+
+        Point edgePoint = new Point(0, 0);
+        Console.WriteLine($"Trying to move out of a map {edgePoint}: ");
+        Console.WriteLine($"After move down {map10.Next(edgePoint, Direction.Down)}");
+        SmallSquareMap map20 = new SmallSquareMap(20);
+        Console.WriteLine(map20);
+        Point edgePoint2 = new Point(19, 19);
+        Console.WriteLine($"Trying to move out of a map after right move: {edgePoint2}");
+        Console.WriteLine($"After move right {map20.Next(edgePoint2, Direction.Right)}");
+        Console.Write("\n");
+        
+
+        Console.WriteLine($"Next diagonal point after right-up from {startPoint}: {map10.NextDiagonal(startPoint, Direction.Up)}");
+        Console.WriteLine($"Next diagonal point after right-down from {startPoint}: {map10.NextDiagonal(startPoint, Direction.Right)}");
+        Console.WriteLine($"Next diagonal point after left-down from {startPoint}: {map10.NextDiagonal(startPoint, Direction.Down)}");
+        Console.WriteLine($"Next diagonal point after left-up from {startPoint}: {map10.NextDiagonal(startPoint, Direction.Left)}");
     }
 }
