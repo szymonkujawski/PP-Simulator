@@ -33,28 +33,23 @@ public abstract class Creature
 
     public Creature() { }
 
-    //public void SayHi() => Console.WriteLine($"Hi, I'm {Name}, my level is {Level}.");
-    public abstract void SayHi();
+    public abstract string Greeting();
 
     public void Upgrade()
     {
         if (level < 10) { level++; }
     }
-    public void Go(Direction direction)
+    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
+    public string[] Go(Direction[] directions)
     {
-        Console.WriteLine($"{Name} goes {direction.ToString().ToLower()}");
-    }
-    public void Go(Direction[] directions)
-    {
-        foreach (var direction in directions)
+        var result = new string[directions.Length];
+        for (int i =0; i<directions.Length; i++)
         {
-            Go(direction);
+            result[i] = Go(directions[i]);
         }
+        return result;
     }
-    public void Go(string letters)
-    {
-        var directions = DirectionParser.Parse(letters);
-
-        Go(directions);
-    }
+    public string[] Go(string directionSeq) =>
+        Go(DirectionParser.Parse(directionSeq));
+    
 }

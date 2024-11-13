@@ -24,14 +24,14 @@ public class Orc : Creature
     public void Hunt()
     {
         huntCounter++;
-        Console.WriteLine($"{Name} is hunting.");
         if (huntCounter % 2 == 0 && rage < 10)
         {
             rage++;
-            Console.WriteLine($"Rage Up ({rage - 1} -> {rage})");
+
         }
     }
-    public override void SayHi() => Console.WriteLine(
-    $"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}."
-    );
+    public override string Greeting()
+    {
+        throw new NotImplementedException();
+    }
 }
