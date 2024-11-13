@@ -24,14 +24,13 @@ public class Orc : Creature
     public void Hunt()
     {
         huntCounter++;
+
         if (huntCounter % 2 == 0 && rage < 10)
         {
             rage++;
 
         }
     }
-    public override string Greeting()
-    {
-        throw new NotImplementedException();
-    }
+    public override string Greeting() => $"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}";
+    
 }

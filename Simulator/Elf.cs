@@ -30,8 +30,5 @@ public class Elf : Creature
             agility++;
         }
     }
-    public override string Greeting()
-    {
-        throw new NotImplementedException();
-    }
+    public override string Greeting() => $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}";
 }
