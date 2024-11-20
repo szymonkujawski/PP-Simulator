@@ -3,7 +3,7 @@
     /// <summary>
     /// Small square map with a side size between 5 and 20 points.
     /// </summary>
-    public class SmallSquareMap : Map
+    public class SmallSquareMap : SmallMap
     {
         /// <summary>
         /// Size of the map.
@@ -22,7 +22,7 @@
             }
             Size = size;
         }
-        public override bool Exist(Point p) => p.X >= 0 && p.X < Size && p.Y >= 0 && p.Y < Size;
+        
         public override Point Next(Point p, Direction d)
         {
             Point nextPoint = d switch

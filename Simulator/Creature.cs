@@ -1,9 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using Simulator.Maps;
 namespace Simulator;
 
 public abstract class Creature
 {
+    public Map? Map { get; private set; }
+    public Point Position { get; private set; }
+
+    public void initMapAndPosition(Map map, Point position)
+
+
+
     private string name = "Unknown";
     public string Name
     {
@@ -39,7 +46,12 @@ public abstract class Creature
     {
         if (level < 10) { level++; }
     }
-    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
+    public string Go(Direction direction)
+    {
+        var size = direction.Length;
+        return $"{direction.ToString().ToLower()}";
+    }
+
     public string[] Go(Direction[] directions)
     {
         var result = new string[directions.Length];
