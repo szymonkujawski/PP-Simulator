@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSimulator", "TestSimula
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C30BBF5-B99D-4837-8F49-544EBA2E5912}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimConsole", "SimConsole\SimConsole.csproj", "{ED9CE608-D5B8-4306-AED1-5188D19A4274}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{3D0F8D0F-CF30-4666-B329-2E02AB122FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D0F8D0F-CF30-4666-B329-2E02AB122FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D0F8D0F-CF30-4666-B329-2E02AB122FB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED9CE608-D5B8-4306-AED1-5188D19A4274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED9CE608-D5B8-4306-AED1-5188D19A4274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED9CE608-D5B8-4306-AED1-5188D19A4274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED9CE608-D5B8-4306-AED1-5188D19A4274}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,7 @@ internal class Program
     static void Main(string[] args)
     {
 
-        Lab7();
+        //Lab7();
 
     }
 
