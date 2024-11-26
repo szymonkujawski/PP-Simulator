@@ -1,20 +1,16 @@
-﻿namespace Simulator.Maps;
+﻿using Simulator.Maps;
 
 public abstract class SmallMap : Map
 {
-    List<Creature>?[,] _fields;
-
     protected SmallMap(int sizeX, int sizeY) : base(sizeX, sizeY)
     {
-        if (SizeX > 20)
+        if (sizeX > 20)
         {
-            throw new ArgumentOutOfRangeException(nameof(SizeX), "Too wide");
+            throw new ArgumentOutOfRangeException(nameof(sizeX), "Too wide");
         }
-        if (SizeY > 20)
-        {
-            throw new ArgumentOutOfRangeException(nameof(SizeY), "Too tall");
+        if (sizeY > 20)
+        { 
+            throw new ArgumentOutOfRangeException(nameof(sizeY), "Too high");
         }
-
-        _fields = new List<Creature>?[sizeX, sizeY];
     }
 }

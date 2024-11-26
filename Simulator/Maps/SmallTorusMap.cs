@@ -1,28 +1,24 @@
 ﻿namespace Simulator.Maps;
 public class SmallTorusMap : Map
 {
-    private readonly Rectangle border;
-    public int Size { get; }
-    public SmallTorusMap(int size)
+    public SmallTorusMap(int sizeX, int sizeY) : base(sizeX, sizeY)
     {
-        if (size > 20 || size < 5)
-            throw new ArgumentOutOfRangeException("Error! Size should be in range [5-20]");
-        Size = size;
-        border = new Rectangle(0, 0, Size - 1, Size - 1);
+
     }
 
-    public override bool Exist(Point point) => border.Contains(point);
-    public override Point Next(Point point, Direction direction)
+    public override Point Next(Point p, Direction d)
     {
-        var moved = point.Next(direction);
-
-        return new Point((moved.X + Size) % Size, (moved.Y + Size) % Size);
+        var nextPoint = p.Next(d);
+        int x = (nextPoint.X + SizeX) % SizeX;
+        int y = (nextPoint.Y + SizeY) % SizeY;
+        return new Point(x, y);
     }
 
-    public override Point NextDiagonal(Point point, Direction direction)
+    public override Point NextDiagonal(Point p, Direction d)
     {
-        var moved = point.NextDiagonal(direction);
-
-        return new Point((moved.X + Size) % Size, (moved.Y + Size) % Size);
+        var nextDiagonal = p.NextDiagonal(d);
+        int x = (nextDiagonal.X + SizeX) % SizeX;
+        int y = (nextDiagonal.Y + SizeY) % SizeY;
+        return new Point(x, y);
     }
 }
