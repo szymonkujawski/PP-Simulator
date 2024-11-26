@@ -1,7 +1,12 @@
-﻿namespace Simulator;
+﻿using Simulator.Maps;
+
+namespace Simulator;
 
 public abstract class Creature
 {
+    public Map? Map { get; private set; }
+    public Point Position { get; private set; }
+
     private string name = "Unknown";
     private int level = 1;
 
@@ -36,18 +41,41 @@ public abstract class Creature
         if (level < 10) { level++; }
     }
 
-    public string Go(Direction direction) => $"{Name} goes {direction.ToString().ToLower()}.";
-
-    public string[] Go(Direction[] directions)
+    public void MapAndPosition(Map map, Point position)
     {
-        var results = new string[directions.Length];
-        for (int i =0; i < directions.Length; i++)
+        if (!map.Exist(position))
         {
-            results[i] = Go(directions[i]);
+            throw new ArgumentException("This position does not exist on this map");
         }
-        return results;
+        if (map == null)
+        {
+            throw new ArgumentNullException(nameof(map));
+        }
+        if (Map != null)
+        {
+            throw new InvalidOperationException($"You can not move this creature to another map because it is already on one");
+        }
+        
+
+        Position = position;
+        Map = map;
+        map.Add(this, position);
     }
-    public string[] Go(string directionSeq) =>
-        Go(DirectionParser.Parse(directionSeq));
+
+    public string Go(Direction direction)
+    {
+        if (Map == null)
+        {
+            throw new InvalidOperationException("This creature can not move because it is not on the map");
+        }
+        var newPosition = Map.Next(Position, direction);
+
+        Map.Move(this, Position, newPosition);
+
+        Position = newPosition;
+
+        return $"{Name} moves {direction.ToString().ToLower()}.";
+    }
+
 
 }

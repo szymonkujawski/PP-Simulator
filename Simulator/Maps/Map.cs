@@ -28,6 +28,20 @@ public abstract class Map
         _map = new Rectangle(0, 0, SizeX - 1, SizeY - 1);
     }
 
+    public abstract void Add(Creature creature, Point position);
+    public abstract void Remove(Creature creature, Point position);
+    public void Move(Creature creature, Point previousPosition, Point afterPosition)
+    {
+        if (!Exist(previousPosition) || !Exist(afterPosition))
+        {
+            throw new ArgumentException("Previous or next position is not inside of the map");
+        }
+        Add(creature, afterPosition);
+        Remove(creature, previousPosition);
+    }
+    public abstract List<Creature>? At(int x, int y);
+    public abstract List<Creature>? At(Point position);
+
 
     /// <summary>
     /// Check if give point belongs to the map.
