@@ -28,19 +28,19 @@ public abstract class Map
         _map = new Rectangle(0, 0, SizeX - 1, SizeY - 1);
     }
 
-    public abstract void Add(Creature creature, Point position);
-    public abstract void Remove(Creature creature, Point position);
-    public void Move(Creature creature, Point previousPosition, Point afterPosition)
+    public abstract void Add(IMappable mappable, Point position);
+    public abstract void Remove(IMappable mappable, Point position);
+    public void Move(IMappable mappable, Point previousPosition, Point afterPosition)
     {
-        if (!Exist(previousPosition) || !Exist(afterPosition))
-        {
-            throw new ArgumentException("Previous or next position is not inside of the map");
-        }
-        Add(creature, afterPosition);
-        Remove(creature, previousPosition);
+        //if (!Exist(previousPosition) || !Exist(afterPosition))
+        //{
+        //    throw new ArgumentException("Previous or next position is not inside of the map");
+        //}
+        Add(mappable, afterPosition);
+        Remove(mappable, previousPosition);
     }
-    public abstract List<Creature>? At(int x, int y);
-    public abstract List<Creature>? At(Point position);
+    public abstract List<IMappable>? At(int x, int y);
+    public abstract List<IMappable>? At(Point position);
 
 
     /// <summary>
