@@ -38,7 +38,7 @@ public class MapVisualizer
                 {
                     var creature = creatures.First();
 
-                    Console.Write(creature is Orc ? "O" : "E");
+                    Console.Write(creature.Symbol);
                 }
                 else
                 {

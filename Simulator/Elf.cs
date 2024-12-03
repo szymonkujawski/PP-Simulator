@@ -8,6 +8,8 @@ namespace Simulator;
 public class Elf : Creature
 {
     private int agility = 1;
+
+    public override char Symbol => 'E';
     public int Agility
     {
         get => agility;

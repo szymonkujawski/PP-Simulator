@@ -36,6 +36,7 @@ public abstract class Creature : IMappable
 
     public abstract string Greeting();
 
+    public virtual char Symbol => 'C';
     public void Upgrade()
     {
         if (level < 10) { level++; }
