@@ -62,5 +62,19 @@ internal class Program
             }
         }
 
+        //simulation.History.ShowState(1);
+        //simulation.History.ShowState(2);
+        //simulation.History.ShowState(3);
+        //simulation.History.ShowState(4);
+        //simulation.History.ShowState(21);
+
+
+        simulation.History.ShowState(5);
+
+        simulation.History.ShowState(10);
+
+        simulation.History.ShowState(15);
+
+        simulation.History.ShowState(20);
     }
 }
