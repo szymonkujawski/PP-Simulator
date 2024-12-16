@@ -1,88 +1,70 @@
 ﻿using Simulator.Maps;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Simulator;
-
 public class Simulation
 {
-
     /// <summary>
     /// Simulation's map.
     /// </summary>
     public Map Map { get; }
-
     /// <summary>
-    /// Creatures moving on the map.
+    /// IMappables moving on the map.
     /// </summary>
     public List<IMappable> Mappables { get; }
-
     /// <summary>
-    /// Starting positions of creatures.
+    /// Starting positions of mappables.
     /// </summary>
     public List<Point> Positions { get; }
-
     /// <summary>
-    /// Cyclic list of creatures moves. 
+    /// Cyclic list of mappables moves. 
     /// Bad moves are ignored - use DirectionParser.
     /// First move is for first mappable, second for second and so on.
-    /// When all creatures make moves, 
+    /// When all mappables make moves, 
     /// next move is again for first mappable and so on.
     /// </summary>
     public string Moves { get; }
-
     /// <summary>
     /// List of directions.
     /// </summary>
     private List<Direction> ParsedMoves { get; }
-
     /// <summary>
     /// Has all moves been done?
     /// </summary>
     public bool Finished = false;
-
     /// <summary>
     /// Current turn counter.
     /// </summary>
-    private int _counter = 0;
-
-
+    private int counter = 0;
     /// <summary>
-    /// Valid moves chars.
+    /// Valid moves list.
     /// </summary>
-    private HashSet<char> validMoves = new HashSet<char> { 'l', 'r', 'u', 'd' };
-
+    private HashSet<char> validMoves = new HashSet<char> { 'u', 'd', 'r', 'l' };
     /// <summary>
     /// IMappable which will be moving current turn.
     /// </summary>
     public IMappable CurrentMappable
     {
-        get => Mappables[_counter % Mappables.Count];
+        get => Mappables[counter % Mappables.Count];
     }
-
     /// <summary>
     /// Lowercase name of direction which will be used in current turn.
     /// </summary>
     public string CurrentMoveName
     {
-        get => ParsedMoves[_counter % ParsedMoves.Count].ToString().ToLower();
+        get => ParsedMoves[counter % ParsedMoves.Count].ToString().ToLower();
     }
-
-
-    /// <summary>
-    /// Helps to store simulation history.
-    /// </summary>
-    public SimulationHistory History { get; }
 
     /// <summary>
     /// Simulation constructor.
     /// Throw errors:
-    /// if creatures' list is empty,
-    /// if number of creatures differs from 
+    /// if mappables' list is empty,
+    /// if number of mappables differs from 
     /// number of starting positions.
     /// </summary>
     public Simulation(Map map, List<IMappable> mappables,
@@ -102,22 +84,11 @@ public class Simulation
         Positions = positions;
         Moves = moves;
         ParsedMoves = ValidateMoves(moves);
-        History = new SimulationHistory();
-
-
         for (int i = 0; i < mappables.Count; i++)
         {
             mappables[i].MapAndPosition(map, positions[i]);
         }
-
-        History.SaveState(
-            _counter,
-            Mappables.ToDictionary(m => m, m => m.Position),
-            null,
-            null
-        );
     }
-
     /// <summary>
     /// Makes one move of current mappable in current direction.
     /// Throw error if simulation is finished.
@@ -125,23 +96,12 @@ public class Simulation
     public void Turn()
     {
         if (Finished)
-            throw new InvalidOperationException("Simulation is already finished.");
-
-        var direction = ParsedMoves[_counter % ParsedMoves.Count];
+            throw new InvalidOperationException("Simulation is finished.");
+        var direction = ParsedMoves[counter % ParsedMoves.Count];
         CurrentMappable.Go(direction);
-
-        History.SaveState(
-            _counter,
-            Mappables.ToDictionary(m => m, m => m.Position),
-            CurrentMappable,
-            direction
-        );
-
-        _counter++;
-        if (_counter >= Moves.Length) Finished = true;
+        counter++;
+        if (counter >= Moves.Length) Finished = true;
     }
-
-
     /// <summary>
     /// Validates moves input.
     /// </summary>
