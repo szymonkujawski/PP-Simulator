@@ -1,46 +1,62 @@
-﻿namespace Simulator.Maps;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-/// <summary>
-/// Map of points.
-/// </summary>
+namespace Simulator.Maps;
+
 public abstract class Map
 {
     public int SizeX { get; }
     public int SizeY { get; }
 
     private readonly Rectangle _map;
+
+    Dictionary<Point, List<IMappable>>? _fields;
+
     protected Map(int sizeX, int sizeY)
     {
-        if (sizeX < 5)
-        {
-            throw new ArgumentOutOfRangeException(nameof(sizeX), "Too narrow");
-        }
-        if (sizeY < 5)
-        { 
-            throw new ArgumentOutOfRangeException(nameof(sizeY), "Too short"); 
-        }    
-            
+        if (sizeX < 5) throw new ArgumentOutOfRangeException(nameof(sizeX), "Too narrow");
+        if (sizeY < 5) throw new ArgumentOutOfRangeException(nameof(sizeY), "Too short");
 
         SizeX = sizeX;
         SizeY = sizeY;
-
-
         _map = new Rectangle(0, 0, SizeX - 1, SizeY - 1);
+        _fields = new Dictionary<Point, List<IMappable>>();
     }
 
-    public abstract void Add(IMappable mappable, Point position);
-    public abstract void Remove(IMappable mappable, Point position);
-    public void Move(IMappable mappable, Point previousPosition, Point afterPosition)
+    public void Add(IMappable mappable, Point position)
     {
-        //if (!Exist(previousPosition) || !Exist(afterPosition))
-        //{
-        //    throw new ArgumentException("Previous or next position is not inside of the map");
-        //}
-        Add(mappable, afterPosition);
-        Remove(mappable, previousPosition);
+        CheckIfPositionWithinMap(position);
+        if (!_fields.ContainsKey(position)) _fields[position] = new List<IMappable>();
+        _fields[position].Add(mappable);
     }
-    public abstract List<IMappable>? At(int x, int y);
-    public abstract List<IMappable>? At(Point position);
+
+    public void Remove(IMappable mappable, Point position)
+    {
+        CheckIfPositionWithinMap(position);
+        if (_fields.TryGetValue(position, out var mappables))
+        {
+            mappables.Remove(mappable);
+            if (_fields[position].Count == 0) _fields.Remove(position);
+        }
+    }
+
+    public List<IMappable>? At(Point position)
+    {
+        CheckIfPositionWithinMap(position);
+        return _fields.TryGetValue(position, out var mappables) ? mappables : null;
+    }
+
+    public List<IMappable>? At(int x, int y) => At(new Point(x, y));
+
+    public void Move(IMappable mappable, Point posFrom, Point posTo)
+    {
+        Remove(mappable, posFrom);
+        Add(mappable, posTo);
+    }
 
 
     /// <summary>
@@ -66,4 +82,10 @@ public abstract class Map
     /// <param name="d">Direction.</param>
     /// <returns>Next point.</returns>
     public abstract Point NextDiagonal(Point p, Direction d);
+
+
+    private void CheckIfPositionWithinMap(Point position)
+    {
+        if (!Exist(position)) throw new ArgumentException("Position outside the map.");
+    }
 }

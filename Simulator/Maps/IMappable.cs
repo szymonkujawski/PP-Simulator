@@ -9,7 +9,9 @@ namespace Simulator.Maps;
 public interface IMappable
 {
     Point Position { get; }
-    char Symbol { get; }
+    public char Symbol { get; } // umowny symbol obiektu
+    public string ToString();
+    
     void Go(Direction direction);
     void MapAndPosition(Map map, Point point);
 }
