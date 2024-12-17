@@ -10,7 +10,7 @@ namespace Simulator;
 public class Birds : Animals
 {
     private Direction _currentDirection;
-    public override char Symbol => CanFly ? 'B' : 'b';
+    public override char Symbol => CanFly ? 'B' : 'N';
     public bool CanFly { get; set; } = true;
 
     public override string Info
